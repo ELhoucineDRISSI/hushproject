@@ -2,7 +2,7 @@
 
 from dotenv import load_dotenv
 import streamlit as st
-from PyPDF2 import PdfReader
+from PyPDF2 import PdfFileReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
@@ -21,7 +21,7 @@ def main():
 
     # extract the text
     if pdf is not None:
-      pdf_reader = PdfReader(pdf)
+      pdf_reader = PdfFileReader(pdf)
       text = ""
       for page in pdf_reader.pages:
         text += page.extract_text()
