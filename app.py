@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 import streamlit as st
-from PyPDF2 import PdfFileReader
+import pdfplumber
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
@@ -9,6 +9,13 @@ from langchain.llms import OpenAI
 
 # Load environment variables from .env file
 load_dotenv()
+
+def extract_text_from_pdf(pdf_file):
+    with pdfplumber.open(pdf_file) as pdf:
+        text = ""
+        for page in pdf.pages:
+            text += page.extract_text()
+    return text
 
 def main():
     st.set_page_config(page_title="Chat with your PDF file")
@@ -19,10 +26,7 @@ def main():
 
     # Extract the text from the PDF file
     if pdf is not None:
-        pdf_reader = PdfFileReader(pdf)
-        text = ""
-        for page in pdf_reader.pages:
-            text += page.extract_text()
+        text = extract_text_from_pdf(pdf)
 
         # Split the text into chunks
         char_text_splitter = CharacterTextSplitter(separator="\n", chunk_size=1000, chunk_overlap=200, length_function=len)
