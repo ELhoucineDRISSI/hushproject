@@ -1,4 +1,3 @@
-site --user-site
 streamlit==0.89.0
 PyPDF2==1.26.0
 langchain
