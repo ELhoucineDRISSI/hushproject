@@ -1,4 +1,6 @@
+site --user-site
 streamlit==0.89.0
 PyPDF2==1.26.0
 langchain
 protobuf==3.20
+altair==4.1.0
